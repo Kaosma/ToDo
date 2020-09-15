@@ -10,9 +10,13 @@ import UIKit
 
 class TodoViewController: UITableViewController {
     
+    // MARK: Variables
     var categoryArray = ["Home", "Job", "Football"]
     
+    // MARK: Constants
     
+    // MARK: IB Actions
+    // Creates an alert to add a new category
     @IBAction func addCategoryButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -32,16 +36,20 @@ class TodoViewController: UITableViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    // MARK: TableViewFunctions
+    // Returns the amount of elements in categoryArray
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categoryArray.count
     }
     
+    // Creates the cells in the TableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath)
         cell.textLabel?.text = categoryArray[indexPath.row]
         return cell
     }
     
+    // Selecting a cell with a touch checkmarks it
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
             tableView.cellForRow(at: indexPath)?.accessoryType = .none
