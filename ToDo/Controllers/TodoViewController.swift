@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class TodoViewController: UITableViewController {
     
@@ -32,8 +33,25 @@ class TodoViewController: UITableViewController {
         }
         
         alert.addAction(action)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    @IBAction func logoutButtonPressed(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "", preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "Sign out", style: .default){ (action) in
+            do {
+                try Auth.auth().signOut()
+                self.navigationController?.popToRootViewController(animated: true)
+            } catch let signOutError as NSError {
+              print ("Error signing out: %@", signOutError)
+            }
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true)
     }
     
     // MARK: TableViewFunctions
