@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,6 +19,9 @@
 		FB113A3025110963000ACF62 /* ToDoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB113A2F25110963000ACF62 /* ToDoTests.swift */; };
 		FB113A3B25110963000ACF62 /* ToDoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB113A3A25110963000ACF62 /* ToDoUITests.swift */; };
 		FB65E165251178B400D8DA87 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB65E164251178B400D8DA87 /* GoogleService-Info.plist */; };
+		FB65E16725118A4500D8DA87 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16625118A4500D8DA87 /* RegisterViewController.swift */; };
+		FB65E16925118A5C00D8DA87 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16825118A5C00D8DA87 /* LoginViewController.swift */; };
+		FB65E16E25118BAF00D8DA87 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +66,9 @@
 		FB113A3A25110963000ACF62 /* ToDoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoUITests.swift; sourceTree = "<group>"; };
 		FB113A3C25110963000ACF62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB65E164251178B400D8DA87 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		FB65E16625118A4500D8DA87 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		FB65E16825118A5C00D8DA87 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +109,6 @@
 				6C3F95D0777A5F45C872DCCA /* Pods-ToDoTests.debug.xcconfig */,
 				B1B131F5756DDC1EA6EDC546 /* Pods-ToDoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -142,10 +147,11 @@
 		FB113A1725110960000ACF62 /* ToDo */ = {
 			isa = PBXGroup;
 			children = (
+				FB65E16B25118A9100D8DA87 /* Models */,
+				FB65E16A25118A7F00D8DA87 /* Views */,
+				FB65E16C25118A9B00D8DA87 /* Controllers */,
 				FB113A1825110960000ACF62 /* AppDelegate.swift */,
 				FB113A1A25110960000ACF62 /* SceneDelegate.swift */,
-				FB113A1C25110960000ACF62 /* TodoViewController.swift */,
-				FB113A1E25110960000ACF62 /* Main.storyboard */,
 				FB113A2125110963000ACF62 /* Assets.xcassets */,
 				FB113A2325110963000ACF62 /* LaunchScreen.storyboard */,
 				FB113A2625110963000ACF62 /* Info.plist */,
@@ -170,6 +176,32 @@
 				FB113A3C25110963000ACF62 /* Info.plist */,
 			);
 			path = ToDoUITests;
+			sourceTree = "<group>";
+		};
+		FB65E16A25118A7F00D8DA87 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FB113A1E25110960000ACF62 /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FB65E16B25118A9100D8DA87 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FB65E16C25118A9B00D8DA87 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FB113A1C25110960000ACF62 /* TodoViewController.swift */,
+				FB65E16625118A4500D8DA87 /* RegisterViewController.swift */,
+				FB65E16825118A5C00D8DA87 /* LoginViewController.swift */,
+				FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -415,6 +447,9 @@
 				FB113A1D25110960000ACF62 /* TodoViewController.swift in Sources */,
 				FB113A1925110960000ACF62 /* AppDelegate.swift in Sources */,
 				FB113A1B25110960000ACF62 /* SceneDelegate.swift in Sources */,
+				FB65E16E25118BAF00D8DA87 /* WelcomeViewController.swift in Sources */,
+				FB65E16925118A5C00D8DA87 /* LoginViewController.swift in Sources */,
+				FB65E16725118A4500D8DA87 /* RegisterViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
