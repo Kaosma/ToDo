@@ -15,9 +15,10 @@ class TodoViewController: UITableViewController {
     var categoryArray = ["Home", "Job", "Football"]
     
     // MARK: Constants
+    let url = URL(string: "https://us-central1-todo-e0009.cloudfunctions.net/user")!
     
     // MARK: IB Actions
-    // Creates an alert to add a new category
+    // Creates an alert that allows you to add a new category
     @IBAction func addCategoryButtonPressed(_ sender: UIBarButtonItem) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -36,8 +37,16 @@ class TodoViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
+
+        let newUrl = url.absoluteString + "/" + Auth.auth().currentUser!.uid
+        let task = URLSession.shared.dataTask(with: URL(string: newUrl)!) {(data, response, error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
+        }
+        task.resume()
     }
     
+    // Creates an alert that allows you to sign out
     @IBAction func logoutButtonPressed(_ sender: UIBarButtonItem) {
         let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "", preferredStyle: .alert)
 
