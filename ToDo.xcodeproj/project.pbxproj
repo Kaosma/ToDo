@@ -22,6 +22,7 @@
 		FB65E16725118A4500D8DA87 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16625118A4500D8DA87 /* RegisterViewController.swift */; };
 		FB65E16925118A5C00D8DA87 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16825118A5C00D8DA87 /* LoginViewController.swift */; };
 		FB65E16E25118BAF00D8DA87 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */; };
+		FBBAC8A6251C1048009709D7 /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBAC8A5251C1048009709D7 /* AccountViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		FB65E16625118A4500D8DA87 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		FB65E16825118A5C00D8DA87 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
+		FBBAC8A5251C1048009709D7 /* AccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				FB65E16625118A4500D8DA87 /* RegisterViewController.swift */,
 				FB65E16825118A5C00D8DA87 /* LoginViewController.swift */,
 				FB65E16D25118BAF00D8DA87 /* WelcomeViewController.swift */,
+				FBBAC8A5251C1048009709D7 /* AccountViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -446,6 +449,7 @@
 			files = (
 				FB113A1D25110960000ACF62 /* TodoViewController.swift in Sources */,
 				FB113A1925110960000ACF62 /* AppDelegate.swift in Sources */,
+				FBBAC8A6251C1048009709D7 /* AccountViewController.swift in Sources */,
 				FB113A1B25110960000ACF62 /* SceneDelegate.swift in Sources */,
 				FB65E16E25118BAF00D8DA87 /* WelcomeViewController.swift in Sources */,
 				FB65E16925118A5C00D8DA87 /* LoginViewController.swift in Sources */,

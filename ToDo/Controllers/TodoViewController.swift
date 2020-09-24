@@ -38,29 +38,12 @@ class TodoViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
 
-        let newUrl = url.absoluteString + "/" + Auth.auth().currentUser!.uid
-        let task = URLSession.shared.dataTask(with: URL(string: newUrl)!) {(data, response, error) in
+        let userUrl = url.absoluteString + "/" + Auth.auth().currentUser!.uid
+        let task = URLSession.shared.dataTask(with: URL(string: userUrl)!) {(data, response, error) in
             guard let data = data else { return }
             print(String(data: data, encoding: .utf8)!)
         }
         task.resume()
-    }
-    
-    // Creates an alert that allows you to sign out
-    @IBAction func logoutButtonPressed(_ sender: UIBarButtonItem) {
-        let alert = UIAlertController(title: "Are you sure you want to sign out?", message: "", preferredStyle: .alert)
-
-        alert.addAction(UIAlertAction(title: "Sign out", style: .default){ (action) in
-            do {
-                try Auth.auth().signOut()
-                self.navigationController?.popToRootViewController(animated: true)
-            } catch let signOutError as NSError {
-              print ("Error signing out: %@", signOutError)
-            }
-        })
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-
-        self.present(alert, animated: true)
     }
     
     // MARK: TableViewFunctions
