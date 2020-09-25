@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import ChameleonFramework
 
 class LoginViewController: UIViewController {
     
@@ -26,6 +27,12 @@ class LoginViewController: UIViewController {
                     self.performSegue(withIdentifier: "LoginToList", sender: self)
                 }
             }
+        }
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+        if let navBarColor = UIColor(hexString: "1D9BF6") {
+            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
         }
     }
 }

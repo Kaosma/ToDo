@@ -102,6 +102,13 @@ class TaskViewController: UITableViewController {
         tableView.rowHeight = 70.0
         tableView.separatorStyle = .none
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+        if let navBarColor = UIColor(hexString: gradientColor) {
+            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        }
+    }
 }
 
 // MARK: Swipe Cell Delegate Methods

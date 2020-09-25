@@ -64,7 +64,9 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categoryArray[indexPath.row]
-        cell.backgroundColor = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
+        let color = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
+        cell.backgroundColor = color
+        cell.textLabel?.textColor = ContrastColorOf(color!, returnFlat: true)
         cell.delegate = self
         return cell
     }
@@ -116,7 +118,6 @@ class TodoViewController: UITableViewController {
     }*/
     
     
-    
     // MARK: Main
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,6 +126,13 @@ class TodoViewController: UITableViewController {
         loadCategories()
         tableView.rowHeight = 70.0
         tableView.separatorStyle = .none
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+        if let navBarColor = UIColor(hexString: "1D9BF6") {
+            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        }
     }
 }
 

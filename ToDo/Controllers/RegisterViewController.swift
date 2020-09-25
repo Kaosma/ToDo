@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Firebase
+import ChameleonFramework
 
 class RegisterViewController: UIViewController {
     
@@ -57,5 +58,10 @@ class RegisterViewController: UIViewController {
             }
         }
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+        if let navBarColor = UIColor(hexString: "1D9BF6") {
+            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
+        }
+    }
 }
