@@ -61,14 +61,18 @@ class TodoViewController: UITableViewController {
         return cell
     }
     
-    // Selecting a cell with a touch checkmarks it
+    // Selecting a cell with a touch segues into that category's TableView
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        }
-        tableView.deselectRow(at: indexPath, animated: true)
+        performSegue(withIdentifier: "goToTasks", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToTasks" {
+            let destinationVC = segue.destination as! TaskViewController
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedCategory = categoryArray[indexPath.row]
+            }
+        } 
     }
     
     // Loads the categories to the categoryArray

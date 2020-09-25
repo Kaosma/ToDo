@@ -30,7 +30,6 @@ class AccountViewController: UIViewController {
             "email": emailTextField.text!,
             "password": passwordTextField.text!,
             "id": id]
-        print(type(of: emailTextField.text!))
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         guard let httpBody = try? JSONSerialization.data(withJSONObject: JSON, options: []) else { return }
         request.httpBody = httpBody
