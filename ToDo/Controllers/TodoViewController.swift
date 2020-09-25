@@ -63,7 +63,9 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categoryArray[indexPath.row]
+
         cell.backgroundColor = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
+        cell.textLabel?.textColor = ContrastColorOf(UIColor(hexString: categoryColorArray[indexPath.row])!, returnFlat: true)
         cell.delegate = self
         return cell
     }

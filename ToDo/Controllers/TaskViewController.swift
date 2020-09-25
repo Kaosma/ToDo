@@ -92,6 +92,8 @@ class TaskViewController: UITableViewController {
                 self.tableView.reloadData()
                 guard let navBar = self.navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
                 navBar.barTintColor = UIColor(hexString: self.gradientColor)
+                navBar.tintColor = ContrastColorOf(UIColor(hexString: self.gradientColor)!, returnFlat: true)
+                
             }
         }
     }
