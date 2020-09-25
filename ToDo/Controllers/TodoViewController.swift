@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import SwipeCellKit
 
 class TodoViewController: UITableViewController {
     
@@ -56,8 +57,10 @@ class TodoViewController: UITableViewController {
     
     // Creates the cells in the TableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categoryArray[indexPath.row]
+        
+        cell.delegate = self
         return cell
     }
     
@@ -114,6 +117,35 @@ class TodoViewController: UITableViewController {
         let Nib = UINib(nibName: "TodoCategoryCell", bundle: nil)
         tableView.register(Nib, forCellReuseIdentifier: "Cell")
         loadCategories()
+        tableView.rowHeight = 70.0
     }
 }
+// MARK: Swipe Cell Delegate Methods
+extension TodoViewController: SwipeTableViewCellDelegate{
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
 
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            let collectionReference = self.db.collection("categories")
+            let query : Query = collectionReference.whereField("category", isEqualTo: self.categoryArray[indexPath.row])
+            
+            query.getDocuments(completion: { (snapshot, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    for document in snapshot!.documents {
+                        self.db.collection("categories").document("\(document.documentID)").delete()
+                }
+            }})
+            self.categoryArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete")
+
+        return [deleteAction]
+    }
+}
