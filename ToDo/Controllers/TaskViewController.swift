@@ -5,7 +5,6 @@
 //  Created by Erik Ugarte on 2020-09-25.
 //  Copyright © 2020 Creative League. All rights reserved.
 //
-
 import Foundation
 import UIKit
 import Firebase
@@ -22,6 +21,7 @@ class TaskViewController: UITableViewController {
     var selectedCategory : String? {
         didSet {
             loadTasks()
+            title = selectedCategory
         }
     }
     
@@ -60,12 +60,13 @@ class TaskViewController: UITableViewController {
     
     // Creates the cells in the TableView
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTaskCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTaskCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = taskArray[indexPath.row]
         if let color = UIColor(hexString: gradientColor)?.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(taskArray.count)) {
             cell.backgroundColor = color
             cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
         }
+        cell.delegate = self
         return cell
     }
     
@@ -89,6 +90,8 @@ class TaskViewController: UITableViewController {
                     self.gradientColor = (document.data()["colorString"] as? String)!
                 }
                 self.tableView.reloadData()
+                guard let navBar = self.navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+                navBar.barTintColor = UIColor(hexString: self.gradientColor)
             }
         }
     }
@@ -98,16 +101,11 @@ class TaskViewController: UITableViewController {
         super.viewDidLoad()
         let Nib = UINib(nibName: "TodoTaskCell", bundle: nil)
         tableView.register(Nib, forCellReuseIdentifier: "Cell")
-        navigationController?.title = selectedCategory
         tableView.rowHeight = 70.0
         tableView.separatorStyle = .none
     }
-    
     override func viewWillAppear(_ animated: Bool) {
-        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
-        if let navBarColor = UIColor(hexString: gradientColor) {
-            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
-        }
+        loadTasks()
     }
 }
 
@@ -119,6 +117,7 @@ extension TaskViewController: SwipeTableViewCellDelegate{
 
         let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
             // handle action by updating model with deletion
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
             self.taskArray.remove(at: indexPath.row)
             tableView.reloadData()
         }

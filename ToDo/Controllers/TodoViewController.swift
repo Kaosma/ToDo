@@ -5,7 +5,6 @@
 //  Created by Erik Ugarte on 2020-09-15.
 //  Copyright © 2020 Creative League. All rights reserved.
 //
-
 import UIKit
 import Firebase
 import SwipeCellKit
@@ -64,9 +63,7 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categoryArray[indexPath.row]
-        let color = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
-        cell.backgroundColor = color
-        cell.textLabel?.textColor = ContrastColorOf(color!, returnFlat: true)
+        cell.backgroundColor = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
         cell.delegate = self
         return cell
     }
@@ -74,6 +71,7 @@ class TodoViewController: UITableViewController {
     // Selecting a cell with a touch segues into that category's TableView
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToTasks", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -82,7 +80,7 @@ class TodoViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.selectedCategory = categoryArray[indexPath.row]
             }
-        } 
+        }
     }
     
     // Loads the categories to the categoryArray
@@ -118,6 +116,7 @@ class TodoViewController: UITableViewController {
     }*/
     
     
+    
     // MARK: Main
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -129,10 +128,8 @@ class TodoViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
-        if let navBarColor = UIColor(hexString: "1D9BF6") {
-            navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)
-        }
+        guard let navBar = self.navigationController?.navigationBar else {fatalError("Navigation controller does not exist")}
+        navBar.barTintColor = UIColor(hexString: "1D9BF6")
     }
 }
 
