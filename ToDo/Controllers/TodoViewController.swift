@@ -70,34 +70,46 @@ class TodoViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    /*
+    
+    // Loads the categories to the categoryArray
     func loadCategories(){
-        
-        db.collection("users").whereField(field: "categories") { (querySnapshot, error) in
-            if let e = error {
-                print("There was an Issue retrieving data from Firestore. \(e)")
+        self.db.collection("categories").self.whereField("id", isEqualTo: id).getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Error getting documents: \(err)")
             } else {
-                if let snapShotDocuments = querySnapshot?.documents {
-                    for doc in snapShotDocuments {
-                        let data = doc.data()
-                        if let type = data["type"] as? String, let name = data["name"] as? String, let id = data["id"] as? String, let cost = data["cost"] as? Int, let boost = data["boost"] as? Double {
-                            let newObject = PackageItem(type: type, name: name, id: id, cost: cost, boost: boost)
-                            self.packageList.append(newObject)
-                            
-                            DispatchQueue.main.async {
-                                self.packageTableViewOutlet.reloadData()
-                            }
-                        }
-                    }
+                for document in querySnapshot!.documents {
+                    self.categoryArray.append((document.data()["category"] as? String)!)
                 }
+                self.tableView.reloadData()
             }
         }
+    }
+    
+    
+    /*
+    self.db.collection("categories").self.whereField("id", isEqualTo: self.id).getDocuments() { (querySnapshot, err) in
+        if let err = err {
+            print("Error getting documents: \(err)")
+        } else {
+            for document in querySnapshot!.documents {
+                if let docArray = document.data()["categories"] as? [String] {
+                    loadedCategoryArray = docArray
+                } else {
+                    
+                }
+            }
+            loadedCategoryArray.append(categoryName)
+        }
     }*/
+    
+    
+    
     // MARK: Main
     override func viewDidLoad() {
         super.viewDidLoad()
         let Nib = UINib(nibName: "TodoCategoryCell", bundle: nil)
         tableView.register(Nib, forCellReuseIdentifier: "Cell")
+        loadCategories()
     }
 }
 
