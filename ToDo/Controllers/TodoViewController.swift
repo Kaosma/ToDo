@@ -12,10 +12,12 @@ import Firebase
 class TodoViewController: UITableViewController {
     
     // MARK: Variables
-    var categoryArray = ["Home", "Job", "Football"]
+    var categoryArray = [String]()
     
     // MARK: Constants
     let url = URL(string: "https://us-central1-todo-e0009.cloudfunctions.net/user")!
+    let db = Firestore.firestore()
+    let id = Auth.auth().currentUser!.uid
     
     // MARK: IB Actions
     // Creates an alert that allows you to add a new category
@@ -24,8 +26,15 @@ class TodoViewController: UITableViewController {
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
-            self.categoryArray.append(textField.text!)
-            self.tableView.reloadData()
+
+            if !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty {
+                let categoryName = textField.text!
+                self.db.collection("categories").addDocument(data: [      "id" : self.id,
+                                                                    "category" : categoryName,
+                                                                       "tasks" : [String]().self])
+                self.categoryArray.append(categoryName)
+                self.tableView.reloadData()
+            } else {}
         }
         
         alert.addTextField { (alertTextField) in
@@ -37,13 +46,6 @@ class TodoViewController: UITableViewController {
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         present(alert, animated: true, completion: nil)
-
-        let userUrl = url.absoluteString + "/" + Auth.auth().currentUser!.uid
-        let task = URLSession.shared.dataTask(with: URL(string: userUrl)!) {(data, response, error) in
-            guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
-        }
-        task.resume()
     }
     
     // MARK: TableViewFunctions
@@ -68,7 +70,29 @@ class TodoViewController: UITableViewController {
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
+    /*
+    func loadCategories(){
+        
+        db.collection("users").whereField(field: "categories") { (querySnapshot, error) in
+            if let e = error {
+                print("There was an Issue retrieving data from Firestore. \(e)")
+            } else {
+                if let snapShotDocuments = querySnapshot?.documents {
+                    for doc in snapShotDocuments {
+                        let data = doc.data()
+                        if let type = data["type"] as? String, let name = data["name"] as? String, let id = data["id"] as? String, let cost = data["cost"] as? Int, let boost = data["boost"] as? Double {
+                            let newObject = PackageItem(type: type, name: name, id: id, cost: cost, boost: boost)
+                            self.packageList.append(newObject)
+                            
+                            DispatchQueue.main.async {
+                                self.packageTableViewOutlet.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }*/
     // MARK: Main
     override func viewDidLoad() {
         super.viewDidLoad()
