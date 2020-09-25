@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 import Firebase
+import SwipeCellKit
+import ChameleonFramework
 
 class TaskViewController: UITableViewController {
     
@@ -16,6 +18,7 @@ class TaskViewController: UITableViewController {
     let id = Auth.auth().currentUser!.uid
     
     var taskArray = [String]()
+    var gradientColor = ""
     var selectedCategory : String? {
         didSet {
             loadTasks()
@@ -59,6 +62,10 @@ class TaskViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoTaskCell", for: indexPath)
         cell.textLabel?.text = taskArray[indexPath.row]
+        if let color = UIColor(hexString: gradientColor)?.darken(byPercentage: CGFloat(indexPath.row)/CGFloat(taskArray.count)) {
+            cell.backgroundColor = color
+            cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+        }
         return cell
     }
     
@@ -79,6 +86,7 @@ class TaskViewController: UITableViewController {
             } else {
                 for document in querySnapshot!.documents {
                     self.taskArray = (document.data()["tasks"] as? [String])!
+                    self.gradientColor = (document.data()["colorString"] as? String)!
                 }
                 self.tableView.reloadData()
             }
@@ -91,5 +99,26 @@ class TaskViewController: UITableViewController {
         let Nib = UINib(nibName: "TodoTaskCell", bundle: nil)
         tableView.register(Nib, forCellReuseIdentifier: "Cell")
         navigationController?.title = selectedCategory
+        tableView.rowHeight = 70.0
+        tableView.separatorStyle = .none
+    }
+}
+
+// MARK: Swipe Cell Delegate Methods
+extension TaskViewController: SwipeTableViewCellDelegate{
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else { return nil }
+
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { action, indexPath in
+            // handle action by updating model with deletion
+            self.taskArray.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+
+        // customize the action appearance
+        deleteAction.image = UIImage(named: "delete")
+
+        return [deleteAction]
     }
 }

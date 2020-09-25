@@ -9,11 +9,13 @@
 import UIKit
 import Firebase
 import SwipeCellKit
+import ChameleonFramework
 
 class TodoViewController: UITableViewController {
     
     // MARK: Variables
     var categoryArray = [String]()
+    var categoryColorArray = [String]()
     
     // MARK: Constants
     let url = URL(string: "https://us-central1-todo-e0009.cloudfunctions.net/user")!
@@ -30,10 +32,13 @@ class TodoViewController: UITableViewController {
 
             if !textField.text!.trimmingCharacters(in: .whitespaces).isEmpty {
                 let categoryName = textField.text!
-                self.db.collection("categories").addDocument(data: [      "id" : self.id,
-                                                                    "category" : categoryName,
-                                                                       "tasks" : [String]().self])
+                let categoryColor = UIColor.randomFlat().hexValue()
+                self.db.collection("categories").addDocument(data: ["id" : self.id,
+                                                              "category" : categoryName,
+                                                                 "tasks" : [String]().self,
+                                                           "colorString" : categoryColor])
                 self.categoryArray.append(categoryName)
+                self.categoryColorArray.append(categoryColor)
                 self.tableView.reloadData()
             } else {}
         }
@@ -59,7 +64,7 @@ class TodoViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TodoCategoryCell", for: indexPath) as! SwipeTableViewCell
         cell.textLabel?.text = categoryArray[indexPath.row]
-        
+        cell.backgroundColor = UIColor(hexString: categoryColorArray[indexPath.row] ?? "1D9BF6")
         cell.delegate = self
         return cell
     }
@@ -86,6 +91,7 @@ class TodoViewController: UITableViewController {
             } else {
                 for document in querySnapshot!.documents {
                     self.categoryArray.append((document.data()["category"] as? String)!)
+                    self.categoryColorArray.append((document.data()["colorString"] as? String)!)
                 }
                 self.tableView.reloadData()
             }
@@ -118,8 +124,10 @@ class TodoViewController: UITableViewController {
         tableView.register(Nib, forCellReuseIdentifier: "Cell")
         loadCategories()
         tableView.rowHeight = 70.0
+        tableView.separatorStyle = .none
     }
 }
+
 // MARK: Swipe Cell Delegate Methods
 extension TodoViewController: SwipeTableViewCellDelegate{
     
